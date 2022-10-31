@@ -1,0 +1,11 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}My Application{% endblock %}
+
+{% block body %}
+
+<h1>Bonjour A Tous</h1>
+<p> Comment allez Vous!?<p/>
+<a href="{{ path('hello' , {'prenom': 'lior' , 'age': 31}) }}">Allez voir Hello</a>
+
+{% endblock %}

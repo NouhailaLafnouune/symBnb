@@ -1,0 +1,37 @@
+{% extends 'base.html.twig'%}
+
+{% block title %} Creation D'une Annonce {% endblock %}
+
+ {% form_theme form 'ad/collection.html.twig' %}
+
+{% block body %}
+
+ <div class="container">
+    <h1> Creer une nouvelle annonce </h1>
+
+    {{ form_start(form) }}
+
+    {{ form_widget(form)}}
+
+    <button type="submit" class="btn btn-primary">Creer la nouvelle announce</button>
+
+    {{ form_end(form) }}
+ </div>
+
+
+
+{% endblock %}
+
+
+{% block javascripts %}
+
+<script src="/js/ad.js"></script>
+
+
+{% endblock %}
+
+
+
+
+
+

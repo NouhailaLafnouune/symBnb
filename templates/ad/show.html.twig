@@ -1,0 +1,100 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}
+{{ad.title}}
+{% endblock %}
+
+
+{% block body %}
+
+<div class="ad.title" style="background-image: url({{ ad.coverImage }}); height: 30em;
+    width: 650px;
+    margin-left: 100px;">
+ <div class="container">
+ <h1>{{ad.title}}</h1>
+ <p>{{ad.introduction}}</p>
+ <p class="h2">
+ <strong>{{ad.rooms}} Chambres</strong> pour <strong>{{ad.price |number_format(2,',',' ')}}DH
+ </strong> par nuit
+ </p>
+ <a href="{{ path('app_booking', {'id': ad.id}) }}" class="btn btn-primary">Reserver !</a>
+
+ {% if app.user and app.user == ad.author %}
+ <a href="{{ path('ads_edit',{'id': ad.id})}}" 
+ class="btn btn-secondary">Modifier l'annonce</a>
+ {% endif %}
+ </div>
+</div>
+
+<div class="container">
+
+       <div class="col-md-8 mb-3">
+         {{ ad.content | raw }}  
+        </div>
+  <div class="carousel-inner">
+
+
+<hr>
+
+{% if ad.comments|length > 0 %}
+  <h2 class="mb-3">Commentaire de nos voyageurs :</h2>
+
+  <div class="alert alert-info">
+    <h4 class="alert-heading text-center">
+      <div class="row align-items-center">
+        <div class="col">
+          Note globale donnee par nos voyageurs 
+      </div>
+      <div class="col">
+      {% include 'partials/rating.html.twig' with {'rating': ad.avgRatings} %}
+      <br>
+      <small>(Calculee sur {{ ad.comments|length}} avis)</small>
+
+      </div>
+      </div>
+    </h4>
+  </div>    
+
+
+
+  {% for comment in ad.comments %}
+    <div class="bg-light rounded mb-3 py-3 px-3">
+      <strong>{{ comment.author.firstName}}</strong> a dit :
+      <blockquote>
+        {{comment.content}}
+      </blockquote>
+      <strong>Note donnée : </strong> 
+      {% set rating = comment.rating %}
+      {% include 'partials/rating.html.twig' with {'rating':
+      comment.rating} %}
+      </div>
+  {% endfor %} 
+{% else %}   
+  <h2>Cette annonce n'a pas encore recu de commentaires ...</h2>
+{% endif %}  
+       
+       <div class="col">
+       {% set a = ad.author %}
+         <div class="row mb-3 align-items-center">
+           <div class="col-3">
+           <a href="{{path ('app_user', {'id': a.id}) }}">
+               <img src="{{a.picture}}" class="avatar avatar-medium" alt="Avatar de {{a.firstName}} {{a.lastName}}"> 
+           </a>
+           </div>
+           <div class="col">
+            <a href="{{path ('app_user', {'id': a.id}) }}">
+             <h3>{{a.firstName}} {{a.lastName}}</h3>
+            </a>
+             <span class="badge badge-primary">{{a.ads | length}} annonces</span>
+           </div>
+         </div>
+         {{a.description | raw }}
+
+        </div>
+    </div>
+</div>
+
+
+
+
+{% endblock %}
